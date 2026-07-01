@@ -1,4 +1,4 @@
-.PHONY: setup check offline serve chat test lint
+.PHONY: setup check offline serve chat test lint new-experiment
 
 setup:
 	uv venv --python 3.12 --seed
@@ -21,3 +21,6 @@ test:
 
 lint:
 	ruff check .
+
+new-experiment:
+	python scripts/new_experiment.py --name "$(NAME)"

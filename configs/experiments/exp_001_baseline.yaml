@@ -1,5 +1,8 @@
 experiment_name: exp_001_baseline
+owner: ""
+angle: offline_baseline
 model_name: Qwen/Qwen3-0.6B
+output_dir: outputs/runs/exp_001_baseline
 dtype: auto
 max_tokens: 128
 temperature: 0.7

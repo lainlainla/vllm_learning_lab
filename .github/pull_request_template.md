@@ -9,6 +9,12 @@
 
 ## Results
 
+## Experiment isolation
+
+- [ ] New experiment has a unique name.
+- [ ] Runtime outputs stay under `outputs/runs/<experiment_name>/`.
+- [ ] Result summaries are recorded in `experiments/<experiment_name>/results.md`.
+
 ## Checklist
 
 - [ ] I tested the command locally.

@@ -40,7 +40,13 @@ Run the baseline experiment config:
 python scripts/run_offline.py --config configs/experiments/exp_001_baseline.yaml
 ```
 
-The default config uses `Qwen/Qwen3-0.6B`.
+The default config uses `Qwen/Qwen3-0.6B`. Each successful run writes isolated local artifacts to:
+
+```text
+outputs/runs/<experiment_name>/<run_id>/
+```
+
+`outputs/` is ignored by git. Copy only summaries into the matching `experiments/<experiment_name>/results.md` file.
 
 ## OpenAI-Compatible Server
 
@@ -72,22 +78,25 @@ python scripts/check_env.py
 
 It reports Python, PyTorch, CUDA/GPU visibility, and whether vLLM imports.
 
-## Experiments
+## Multiple Experiments
+
+The framework is meant to extend across different experiment angles: offline inference, serving latency, batching, quantization, SFT/LoRA, eval, and adapter serving.
+
+Create a new isolated experiment scaffold:
+
+```bash
+python scripts/new_experiment.py --name exp_002_batching --angle offline
+```
 
 Each experiment should have:
 
-- A config under `configs/experiments/`.
-- A folder under `experiments/`.
+- A config under `configs/experiments/<experiment_name>.yaml`.
+- A folder under `experiments/<experiment_name>/`.
+- A unique `output_dir`, normally `outputs/runs/<experiment_name>`.
 - The exact command used.
 - Results and notes.
 
-Start from:
-
-```bash
-cp -r experiments/template experiments/exp_002_my_test
-```
-
-Then update `config.yaml`, `command.sh`, and `results.md`.
+Do not reuse one experiment folder for a different question. Use a new experiment name when the model, dataset, serving mode, or measurement goal changes.
 
 ## Training Scaffold
 

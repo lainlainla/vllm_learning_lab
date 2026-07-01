@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import argparse
 import sys
@@ -8,6 +8,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
 from vllm_lab.config import load_yaml, require_keys  # noqa: E402
+from vllm_lab.experiments import make_run_context, write_run_artifacts  # noqa: E402
 from vllm_lab.inference.offline_runner import run_generation  # noqa: E402
 
 
@@ -23,7 +24,8 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    config = load_yaml(args.config)
+    config_path = Path(args.config)
+    config = load_yaml(config_path)
     require_keys(config, ["model_name"])
 
     try:
@@ -38,10 +40,16 @@ def main() -> int:
         print("\n--- Output ---")
         print(item["text"].strip())
 
+    try:
+        context = make_run_context(config, repo_root=REPO_ROOT)
+        write_run_artifacts(context, config_path.read_text(encoding="utf-8"), results)
+    except Exception as exc:
+        print(f"WARNING: could not write run artifacts: {exc}", file=sys.stderr)
+    else:
+        print(f"\nSaved run artifacts to: {context.run_dir}")
+
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-
