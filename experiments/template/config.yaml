@@ -1,0 +1,3 @@
+experiment_name: template
+model_name: Qwen/Qwen3-0.6B
+notes: "Copy this file into a new experiment folder and fill in the details."
